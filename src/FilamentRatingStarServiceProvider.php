@@ -1,11 +1,8 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace l3aro\FilamentRatingStar;
 
-use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
@@ -13,14 +10,14 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsSkeleton;
+use l3aro\FilamentRatingStar\Commands\FilamentRatingStarCommand;
+use l3aro\FilamentRatingStar\Testing\TestsFilamentRatingStar;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentRatingStarServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-rating-star';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-rating-star';
 
     public function configurePackage(Package $package): void
     {
@@ -31,22 +28,16 @@ class SkeletonServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name)
             ->hasCommands($this->getCommands())
-            ->hasInstallCommand(function (InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
                     ->publishConfigFile()
-                    ->publishMigrations()
-                    ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('l3aro/filament-rating-star');
             });
 
         $configFileName = $package->shortName();
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
             $package->hasConfigFile();
-        }
-
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
         }
 
         if (file_exists($package->basePath('/../resources/lang'))) {
@@ -65,12 +56,12 @@ class SkeletonServiceProvider extends PackageServiceProvider
         // Asset Registration
         FilamentAsset::register(
             $this->getAssets(),
-            $this->getAssetPackageName()
+            $this->getAssetPackageName(),
         );
 
         FilamentAsset::registerScriptData(
             $this->getScriptData(),
-            $this->getAssetPackageName()
+            $this->getAssetPackageName(),
         );
 
         // Icon Registration
@@ -80,18 +71,18 @@ class SkeletonServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
-                ], 'skeleton-stubs');
+                    $file->getRealPath() => base_path("stubs/filament-rating-star/{$file->getFilename()}"),
+                ], 'filament-rating-star-stubs');
             }
         }
 
         // Testing
-        Testable::mixin(new TestsSkeleton);
+        Testable::mixin(new TestsFilamentRatingStar());
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return ':vendor_slug/:package_slug';
+        return 'l3aro/filament-rating-star';
     }
 
     /**
@@ -100,9 +91,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            // Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            // Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
+            // AlpineComponent::make('filament-rating-star', __DIR__ . '/../resources/dist/components/filament-rating-star.js'),
+            // Css::make('filament-rating-star-styles', __DIR__ . '/../resources/dist/filament-rating-star.css'),
+            // Js::make('filament-rating-star-scripts', __DIR__ . '/../resources/dist/filament-rating-star.js'),
         ];
     }
 
@@ -112,7 +103,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            FilamentRatingStarCommand::class,
         ];
     }
 
@@ -138,15 +129,5 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getScriptData(): array
     {
         return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getMigrations(): array
-    {
-        return [
-            'create_skeleton_table',
-        ];
     }
 }

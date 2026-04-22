@@ -1,12 +1,14 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+declare(strict_types=1);
+
+namespace l3aro\FilamentRatingStar\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentRatingStarCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-rating-star';
 
     public $description = 'My command';
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace l3aro\FilamentRatingStar;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class FilamentRatingStarPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-rating-star';
     }
 
     public function register(Panel $panel): void
