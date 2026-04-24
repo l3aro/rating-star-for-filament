@@ -36,7 +36,7 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
 
         $configFileName = $package->shortName();
 
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
+        if (file_exists($package->basePath(sprintf('/../config/%s.php', $configFileName)))) {
             $package->hasConfigFile();
         }
 
@@ -71,7 +71,7 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/filament-rating-star/{$file->getFilename()}"),
+                    $file->getRealPath() => base_path('stubs/filament-rating-star/' . $file->getFilename()),
                 ], 'filament-rating-star-stubs');
             }
         }

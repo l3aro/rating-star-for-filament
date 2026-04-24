@@ -22,7 +22,7 @@ trait HasStarType
 
     protected function getStarViewPrefix(): string
     {
-        return $this->shouldAllowHalfStar() ? 'half-star-' : 'full-star-';
+        return $this->shouldAllowHalfStar() ? 'star-half-' : 'star-full-';
     }
 
     public function allowHalfStar(bool|Closure $allowHalfStar = true): static

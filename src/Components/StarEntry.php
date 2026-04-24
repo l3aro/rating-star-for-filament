@@ -1,6 +1,6 @@
 <?php
 
-namespace l3aro\FilamentRatingStar\Entries;
+namespace l3aro\FilamentRatingStar\Components;
 
 use Filament\Infolists\Components\Entry;
 use Filament\Support\Colors\Color;
@@ -16,6 +16,8 @@ class StarEntry extends Entry
     use HasIconSize;
     use HasStarQuantity;
     use HasStarType;
+
+    protected string $view = 'filament-rating-star::wrappers.entry';
 
     public function getColor(): array
     {
@@ -33,8 +35,8 @@ class StarEntry extends Entry
         return $size ?? IconSize::Medium->value;
     }
 
-    public function getView(): string
+    public function getComponentView(): string
     {
-        return 'filament-rating-star::entries.' . $this->getStarViewPrefix() . 'entry';
+        return 'filament-rating-star::components.star-static';
     }
 }

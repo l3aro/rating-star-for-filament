@@ -1,6 +1,6 @@
 <?php
 
-namespace l3aro\FilamentRatingStar\Forms;
+namespace l3aro\FilamentRatingStar\Components;
 
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\CanBeReadOnly;
@@ -21,6 +21,8 @@ class StarInput extends Field
     use HasStarQuantity;
     use HasStarType;
 
+    protected string $view = 'filament-rating-star::wrappers.field';
+
     public function getColor(): array
     {
         return $this->evaluate($this->color) ?? Color::Amber;
@@ -37,8 +39,8 @@ class StarInput extends Field
         return $size ?? IconSize::Medium->value;
     }
 
-    public function getView(): string
+    public function getComponentView(): string
     {
-        return 'filament-rating-star::forms.' . $this->getStarViewPrefix() . 'input';
+        return 'filament-rating-star::components.' . $this->getStarViewPrefix() . 'dynamic';
     }
 }
