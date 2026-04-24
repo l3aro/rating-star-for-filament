@@ -15,7 +15,6 @@ use l3aro\FilamentRatingStar\Concerns\HasStarType;
 class StarInput extends Field
 {
     use CanBeLengthConstrained;
-    use CanBeReadOnly;
     use HasColor;
     use HasIconSize;
     use HasStarQuantity;

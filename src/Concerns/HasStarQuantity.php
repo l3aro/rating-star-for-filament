@@ -34,7 +34,7 @@ trait HasStarQuantity
         return $this;
     }
 
-    public function allowZero(Closure|bool $allowZero): static
+    public function allowZero(Closure|bool $allowZero = true): static
     {
         $this->allowZero = $allowZero;
 
