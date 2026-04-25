@@ -7,7 +7,7 @@
 
 
 
-A Filament plugin that provides elegant star rating components for forms, tables, and infolists. Features interactive rating input with support for half-stars and zero values, fully customizable star count, color, and icon size. Perfect for collecting and displaying user ratings in any Filament-powered admin panel.
+A Filament plugin that provides elegant star rating components for forms, tables, and infolists. Features interactive rating input with support for half-stars and zero values, fully customizable star count, color, and icon size. Perfect for collecting and displaying user ratings in any Filament-powered panel.
 
 ## Installation
 
