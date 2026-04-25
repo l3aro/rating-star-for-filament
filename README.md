@@ -115,6 +115,7 @@ public function panel(Panel $panel): Panel
             FilamentRatingStarPlugin::make(),
         ]);
 }
+```
 
 ## Testing
 
