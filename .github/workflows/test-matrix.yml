@@ -7,86 +7,53 @@ on:
     branches: [main]
 
 jobs:
-  test-l12-stable-ubuntu-84:
-    runs-on: ubuntu-latest
-    name: P8.4 - L12 - stable - ubuntu
-    steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.4"
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-      - run: composer require "laravel/framework:12.*" "orchestra/testbench:10.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-stable --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        php: [8.4, 8.5]
+        laravel: [12.*, 13.*]
+        stability: [prefer-stable]
+        testbench: [10.*, 11.*]
+        carbon: [3.*]
+        collision: [8.*, 9.*]
+        exclude:
+          - laravel: 12.*
+            testbench: 11.*
+          - laravel: 12.*
+            collision: 9.*
+          - laravel: 13.*
+            testbench: 10.*
+          - laravel: 13.*
+            collision: 8.*
 
-  test-l12-lowest-ubuntu-84:
-    runs-on: ubuntu-latest
-    name: P8.4 - L12 - lowest - ubuntu
-    steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.4"
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-      - run: composer require "laravel/framework:12.*" "orchestra/testbench:10.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-lowest --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
-  test-l12-stable-windows-84:
-    runs-on: windows-latest
-    name: P8.4 - L12 - stable - windows
     steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.4"
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-      - run: composer require "laravel/framework:12.*" "orchestra/testbench:10.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-stable --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-  test-l12-stable-ubuntu-85:
-    runs-on: ubuntu-latest
-    name: P8.5 - L12 - stable - ubuntu
-    steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.5"
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
-      - run: composer require "laravel/framework:12.*" "orchestra/testbench:10.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-stable --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
 
-  test-l13-stable-ubuntu-85:
-    runs-on: ubuntu-latest
-    name: P8.5 - L13 - stable - ubuntu
-    steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.5"
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-      - run: composer require "laravel/framework:13.*" "orchestra/testbench:11.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-stable --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-  test-l13-stable-windows-85:
-    runs-on: windows-latest
-    name: P8.5 - L13 - stable - windows
-    steps:
-      - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.5"
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-      - run: composer require "laravel/framework:13.*" "orchestra/testbench:11.*" "nesbot/carbon:3.*" --no-interaction --no-update
-      - run: composer update --prefer-stable --prefer-dist --no-interaction
-      - run: vendor/bin/pest --ci
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" "nunomaduro/collision:${{ matrix.collision }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: List Installed Dependencies
+        run: composer show -D
+
+      - name: Execute tests
+        run: vendor/bin/pest --ci
