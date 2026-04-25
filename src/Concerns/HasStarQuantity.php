@@ -11,23 +11,23 @@ trait HasStarQuantity
 
     protected Closure|ArgumentValue|bool|null $allowZero = ArgumentValue::Default;
 
-    public function getStar(): int
+    public function getStars(): int
     {
         $star = $this->evaluate($this->star);
 
         if ($star instanceof ArgumentValue) {
-            return 5;
+            return (int) config('filament-rating-star.stars');
         }
 
-        return $star ?? 5;
+        return $star ?: (int) config('filament-rating-star.stars');
     }
 
     public function getStarArray(): array
     {
-        return range(1, $this->getStar());
+        return range(1, $this->getStars());
     }
 
-    public function star(Closure|int $star): static
+    public function stars(Closure|int $star): static
     {
         $this->star = $star;
 
@@ -46,9 +46,9 @@ trait HasStarQuantity
         $allowZero = $this->evaluate($this->allowZero);
 
         if ($allowZero instanceof ArgumentValue) {
-            return false;
+            return (bool) config('filament-rating-star.allow_zero');
         }
 
-        return $allowZero ?? false;
+        return (bool) $allowZero;
     }
 }

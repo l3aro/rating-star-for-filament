@@ -14,10 +14,10 @@ trait HasStarType
         $allowHalfStar = $this->evaluate($this->allowHalfStar);
 
         if ($allowHalfStar instanceof ArgumentValue) {
-            return false;
+            return (bool) config('filament-rating-star.allow_half_star');
         }
 
-        return $allowHalfStar ?? false;
+        return (bool) $allowHalfStar;
     }
 
     protected function getStarViewPrefix(): string
