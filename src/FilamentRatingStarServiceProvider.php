@@ -29,8 +29,15 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
             ->hasCommands($this->getCommands())
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
+                    ->publishConfigFile()
                     ->askToStarRepoOnGitHub('l3aro/filament-rating-star');
             });
+
+        $configFileName = $package->shortName();
+
+        if (file_exists($package->basePath(sprintf('/../config/%s.php', $configFileName)))) {
+            $package->hasConfigFile();
+        }
 
         if (file_exists($package->basePath('/../resources/views'))) {
             $package->hasViews(static::$viewNamespace);

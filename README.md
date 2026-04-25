@@ -26,13 +26,6 @@ After setting up a custom theme add the plugin's views to your theme css file or
 @source '../../../../vendor/l3aro/filament-rating-star/resources/**/*.blade.php';
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-rating-star-migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 
 ```bash
@@ -46,7 +39,6 @@ php artisan vendor:publish --tag="filament-rating-star-views"
 ```
 
 This is the contents of the published config file:
-
 ```php
 return [
 ];
@@ -54,10 +46,61 @@ return [
 
 ## Usage
 
+### Form Field
+
+Use `StarInput` in your form schema:
+
 ```php
-$filamentRatingStar = new l3aro\FilamentRatingStar();
-echo $filamentRatingStar->echoPhrase('Hello, l3aro!');
+use l3aro\FilamentRatingStar\Components\StarInput;
+
+StarInput::make('rating')
+    ->stars(5)              // Number of stars (default: 5)
+    ->allowHalfStar()       // Enable half-star selection (default: false)
+    ->allowZero()           // Allow zero rating (default: false)
+    ->color(Color::Amber)   // Star color (default: Amber)
+    ->iconSize(IconSize::Medium); // Star size (default: Medium)
 ```
+
+### Table Column
+
+Use `StarColumn` in your table:
+
+```php
+use l3aro\FilamentRatingStar\Components\StarColumn;
+
+StarColumn::make('rating')
+    ->stars(5)              // Number of stars to display (default: 5)
+    ->color(Color::Amber)    // Star color (default: Amber)
+    ->iconSize(IconSize::Medium); // Star size (default: Medium)
+```
+
+### Infolist Entry
+
+Use `StarEntry` in your infolist:
+
+```php
+use l3aro\FilamentRatingStar\Components\StarEntry;
+
+StarEntry::make('rating')
+    ->stars(5)              // Number of stars to display (default: 5)
+    ->color(Color::Amber)    // Star color (default: Amber)
+    ->iconSize(IconSize::Medium); // Star size (default: Medium)
+```
+
+### Register Plugin
+
+Enable the plugin in your `PanelProvider`:
+
+```php
+use l3aro\FilamentRatingStar\FilamentRatingStarPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            FilamentRatingStarPlugin::make(),
+        ]);
+}
 
 ## Testing
 

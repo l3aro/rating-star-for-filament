@@ -54,7 +54,7 @@ it('renders class bindings for hover preview', function () {
 it('renders sr-only radio inputs for accessibility', function () {
     $component = StarInput::make('rating')
         ->allowZero()
-        ->star(5);
+        ->stars(5);
 
     $html = renderComponent($component);
 
@@ -91,7 +91,7 @@ it('does not have toggle-to-zero when allowZero is disabled', function () {
 
 it('renders correct number of star options', function () {
     $component = StarInput::make('rating')
-        ->star(5);
+        ->stars(5);
 
     $html = renderComponent($component);
 
