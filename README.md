@@ -1,29 +1,29 @@
 # Rating star for filament table column and schemas.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/l3aro/filament-rating-star.svg?style=flat-square)](https://packagist.org/packages/l3aro/filament-rating-star)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/filament-rating-star/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/l3aro/filament-rating-star/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/filament-rating-star/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/l3aro/filament-rating-star/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/l3aro/filament-rating-star.svg?style=flat-square)](https://packagist.org/packages/l3aro/filament-rating-star)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/l3aro/rating-star-for-filament.svg?style=flat-square)](https://packagist.org/packages/l3aro/rating-star-for-filament)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/rating-star-for-filament/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/l3aro/rating-star-for-filament/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/rating-star-for-filament/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/l3aro/rating-star-for-filament/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/l3aro/rating-star-for-filament.svg?style=flat-square)](https://packagist.org/packages/l3aro/rating-star-for-filament)
 
 
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A Filament plugin that provides elegant star rating components for forms, tables, and infolists. Features interactive rating input with support for half-stars and zero values, fully customizable star count, color, and icon size. Perfect for collecting and displaying user ratings in any Filament-powered panel.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require l3aro/filament-rating-star
+composer require l3aro/rating-star-for-filament
 ```
 
 > [!IMPORTANT]
-> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme) first.
+> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme) first.
 
 After setting up a custom theme add the plugin's views to your theme css file or your app's css file if using the standalone packages.
 
 ```css
-@source '../../../../vendor/l3aro/filament-rating-star/resources/**/*.blade.php';
+@source '../../../../vendor/l3aro/rating-star-for-filament/resources/**/*.blade.php';
 ```
 
 You can publish the config file with:
