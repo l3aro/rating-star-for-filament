@@ -3,7 +3,6 @@
 namespace l3aro\FilamentRatingStar\Components;
 
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
-use Filament\Forms\Components\Concerns\CanBeReadOnly;
 use Filament\Forms\Components\Field;
 use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\HasColor;

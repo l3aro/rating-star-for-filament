@@ -106,9 +106,9 @@ it('renders correct number of star options', function () {
 function renderComponent(Field $field): string
 {
     $view = $field->getComponentView();
-    $statePath = (fn () => $this->getStatePath())->call($field);
-    $starArray = (fn () => $this->getStarArray())->call($field);
-    $shouldAllowZero = (fn () => $this->shouldAllowZero())->call($field);
+    $statePath = (fn() => $this->getStatePath())->call($field);
+    $starArray = (fn() => $this->getStarArray())->call($field);
+    $shouldAllowZero = (fn() => $this->shouldAllowZero())->call($field);
     $id = $field->getId();
     $isDisabled = $field->isDisabled();
     $color = $field->getColor();
@@ -122,16 +122,16 @@ function renderComponent(Field $field): string
         file_get_contents($fullPath),
         [
             'field' => $field,
-            'getId' => fn () => $id,
-            'isDisabled' => fn () => $isDisabled,
-            'getColor' => fn () => $color,
-            'getIconSize' => fn () => $iconSize,
-            'getStarArray' => fn () => $starArray,
-            'shouldAllowZero' => fn () => $shouldAllowZero,
-            'getStatePath' => fn () => $statePath,
-            'applyStateBindingModifiers' => fn ($model) => $model,
-            'getFieldWrapperView' => fn () => $fieldWrapperView,
-        ]
+            'getId' => fn() => $id,
+            'isDisabled' => fn() => $isDisabled,
+            'getColor' => fn() => $color,
+            'getIconSize' => fn() => $iconSize,
+            'getStarArray' => fn() => $starArray,
+            'shouldAllowZero' => fn() => $shouldAllowZero,
+            'getStatePath' => fn() => $statePath,
+            'applyStateBindingModifiers' => fn($model) => $model,
+            'getFieldWrapperView' => fn() => $fieldWrapperView,
+        ],
     );
 
     return $html;
