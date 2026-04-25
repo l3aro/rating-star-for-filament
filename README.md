@@ -40,7 +40,15 @@ php artisan vendor:publish --tag="filament-rating-star-views"
 
 This is the contents of the published config file:
 ```php
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\IconSize;
+
 return [
+    'stars' => 5,
+    'allow_half_star' => false,
+    'allow_zero' => false,
+    'color' => Color::Amber,
+    'icon_size' => IconSize::Medium,
 ];
 ```
 
@@ -52,6 +60,8 @@ Use `StarInput` in your form schema:
 
 ```php
 use l3aro\FilamentRatingStar\Components\StarInput;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\IconSize;
 
 StarInput::make('rating')
     ->stars(5)              // Number of stars (default: 5)
@@ -67,6 +77,8 @@ Use `StarColumn` in your table:
 
 ```php
 use l3aro\FilamentRatingStar\Components\StarColumn;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\IconSize;
 
 StarColumn::make('rating')
     ->stars(5)              // Number of stars to display (default: 5)
@@ -80,6 +92,8 @@ Use `StarEntry` in your infolist:
 
 ```php
 use l3aro\FilamentRatingStar\Components\StarEntry;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\IconSize;
 
 StarEntry::make('rating')
     ->stars(5)              // Number of stars to display (default: 5)
