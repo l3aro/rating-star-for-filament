@@ -29,7 +29,7 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
                     ->publishConfigFile()
-                    ->askToStarRepoOnGitHub('l3aro/filament-rating-star');
+                    ->askToStarRepoOnGitHub('l3aro/rating-star-for-filament');
             });
 
         $configFileName = $package->shortName();
@@ -76,7 +76,7 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'l3aro/filament-rating-star';
+        return 'l3aro/rating-star-for-filament';
     }
 
     /**

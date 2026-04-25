@@ -1,9 +1,9 @@
 # Rating star for filament table column and schemas.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/l3aro/filament-rating-star.svg?style=flat-square)](https://packagist.org/packages/l3aro/filament-rating-star)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/filament-rating-star/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/l3aro/filament-rating-star/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/filament-rating-star/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/l3aro/filament-rating-star/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/l3aro/filament-rating-star.svg?style=flat-square)](https://packagist.org/packages/l3aro/filament-rating-star)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/l3aro/rating-star-for-filament.svg?style=flat-square)](https://packagist.org/packages/l3aro/rating-star-for-filament)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/rating-star-for-filament/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/l3aro/rating-star-for-filament/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/l3aro/rating-star-for-filament/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/l3aro/rating-star-for-filament/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/l3aro/rating-star-for-filament.svg?style=flat-square)](https://packagist.org/packages/l3aro/rating-star-for-filament)
 
 
 
@@ -14,7 +14,7 @@ This is where your description should go. Limit it to a paragraph or two. Consid
 You can install the package via composer:
 
 ```bash
-composer require l3aro/filament-rating-star
+composer require l3aro/rating-star-for-filament
 ```
 
 > [!IMPORTANT]
@@ -23,7 +23,7 @@ composer require l3aro/filament-rating-star
 After setting up a custom theme add the plugin's views to your theme css file or your app's css file if using the standalone packages.
 
 ```css
-@source '../../../../vendor/l3aro/filament-rating-star/resources/**/*.blade.php';
+@source '../../../../vendor/l3aro/rating-star-for-filament/resources/**/*.blade.php';
 ```
 
 You can publish the config file with:
