@@ -10,7 +10,6 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use l3aro\FilamentRatingStar\Commands\FilamentRatingStarCommand;
 use l3aro\FilamentRatingStar\Testing\TestsFilamentRatingStar;
 
 class FilamentRatingStarServiceProvider extends PackageServiceProvider
@@ -30,19 +29,8 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
             ->hasCommands($this->getCommands())
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
-                    ->publishConfigFile()
                     ->askToStarRepoOnGitHub('l3aro/filament-rating-star');
             });
-
-        $configFileName = $package->shortName();
-
-        if (file_exists($package->basePath(sprintf('/../config/%s.php', $configFileName)))) {
-            $package->hasConfigFile();
-        }
-
-        if (file_exists($package->basePath('/../resources/lang'))) {
-            $package->hasTranslations();
-        }
 
         if (file_exists($package->basePath('/../resources/views'))) {
             $package->hasViews(static::$viewNamespace);
@@ -94,16 +82,6 @@ class FilamentRatingStarServiceProvider extends PackageServiceProvider
             // AlpineComponent::make('filament-rating-star', __DIR__ . '/../resources/dist/components/filament-rating-star.js'),
             // Css::make('filament-rating-star-styles', __DIR__ . '/../resources/dist/filament-rating-star.css'),
             // Js::make('filament-rating-star-scripts', __DIR__ . '/../resources/dist/filament-rating-star.js'),
-        ];
-    }
-
-    /**
-     * @return array<class-string>
-     */
-    protected function getCommands(): array
-    {
-        return [
-            FilamentRatingStarCommand::class,
         ];
     }
 
