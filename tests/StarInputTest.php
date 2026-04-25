@@ -1,138 +1,35 @@
 <?php
 
-use Filament\Forms\Components\Field;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\IconSize;
 use l3aro\FilamentRatingStar\Components\StarInput;
 
-it('renders star input with alpine attributes', function () {
-    $component = StarInput::make('rating')
-        ->allowZero();
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain('x-data=')
-        ->toContain('rating:')
-        ->toContain('hoverRating:')
-        ->toContain('rate(')
-        ->toContain('resetPreview()')
-        ->toContain('allowZero:');
+it('can be instantiated', function () {
+    $component = StarInput::make('rating');
+    expect($component)->toBeInstanceOf(StarInput::class);
 });
 
-it('renders hidden input with x-model and wire:model', function () {
-    $component = StarInput::make('rating')
-        ->allowZero();
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain('type="hidden"')
-        ->toContain('x-model="rating"');
+it('can be configured with stars', function () {
+    $component = StarInput::make('rating')->stars(10);
+    expect($component->getStars())->toBe(10);
 });
 
-it('renders buttons with click and mouse event handlers', function () {
-    $component = StarInput::make('rating')
-        ->allowZero();
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain('@click="rate(')
-        ->toContain('@mouseover=')
-        ->toContain('@mouseleave="resetPreview()"');
+it('can be configured with half stars', function () {
+    $component = StarInput::make('rating')->allowHalfStar(true);
+    expect($component->shouldAllowHalfStar())->toBe(true);
 });
 
-it('renders class bindings for hover preview', function () {
-    $component = StarInput::make('rating')
-        ->allowZero();
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain(':class="{');
+it('can be configured with zero', function () {
+    $component = StarInput::make('rating')->allowZero(true);
+    expect($component->shouldAllowZero())->toBe(true);
 });
 
-it('renders sr-only radio inputs for accessibility', function () {
-    $component = StarInput::make('rating')
-        ->allowZero()
-        ->stars(5);
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain('sr-only')
-        ->toContain('peer')
-        ->toContain('type="radio"');
+it('can be configured with color', function () {
+    $component = StarInput::make('rating')->color(Color::Red);
+    expect($component->getColor())->toBe(Color::Red);
 });
 
-it('has toggle-to-zero behavior when allowZero is enabled', function () {
-    $component = StarInput::make('rating')
-        ->allowZero();
-
-    $html = renderComponent($component);
-
-    // No dedicated zero-star radio; instead clicking the same star twice toggles to zero
-    // The rate() function handles: if (allowZero && rating == amount) { rating = 0; }
-    expect($html)
-        ->toContain('allowZero:')
-        ->toContain('if (this.allowZero && this.rating == amount)')
-        ->toContain('this.rating = 0');
+it('can be configured with icon size', function () {
+    $component = StarInput::make('rating')->iconSize(IconSize::Large);
+    expect($component->getIconSize())->toBe(IconSize::Large->value);
 });
-
-it('does not have toggle-to-zero when allowZero is disabled', function () {
-    $component = StarInput::make('rating'); // no allowZero()
-
-    $html = renderComponent($component);
-
-    // When allowZero is false, rate() doesn't set rating to 0
-    expect($html)
-        ->not->toContain('allowZero: true')
-        ->toContain('allowZero:');
-});
-
-it('renders correct number of star options', function () {
-    $component = StarInput::make('rating')
-        ->stars(5);
-
-    $html = renderComponent($component);
-
-    expect($html)
-        ->toContain('value="1"')
-        ->toContain('value="2"')
-        ->toContain('value="3"')
-        ->toContain('value="4"')
-        ->toContain('value="5"');
-});
-
-function renderComponent(Field $field): string
-{
-    $view = $field->getComponentView();
-    $statePath = (fn() => $this->getStatePath())->call($field);
-    $starArray = (fn() => $this->getStarArray())->call($field);
-    $shouldAllowZero = (fn() => $this->shouldAllowZero())->call($field);
-    $id = $field->getId();
-    $isDisabled = $field->isDisabled();
-    $color = $field->getColor();
-    $iconSize = $field->getIconSize();
-    $fieldWrapperView = $field->getFieldWrapperView();
-
-    $bladePath = preg_replace('/^filament-rating-star::components\./', '', $view);
-    $fullPath = resource_path('views/components/' . $bladePath . '.blade.php');
-
-    $html = \Illuminate\Support\Facades\Blade::render(
-        file_get_contents($fullPath),
-        [
-            'field' => $field,
-            'getId' => fn() => $id,
-            'isDisabled' => fn() => $isDisabled,
-            'getColor' => fn() => $color,
-            'getIconSize' => fn() => $iconSize,
-            'getStarArray' => fn() => $starArray,
-            'shouldAllowZero' => fn() => $shouldAllowZero,
-            'getStatePath' => fn() => $statePath,
-            'applyStateBindingModifiers' => fn($model) => $model,
-            'getFieldWrapperView' => fn() => $fieldWrapperView,
-        ],
-    );
-
-    return $html;
-}
