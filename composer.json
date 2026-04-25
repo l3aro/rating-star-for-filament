@@ -1,5 +1,5 @@
 {
-    "name": "l3aro/filament-rating-star",
+    "name": "l3aro/rating-star-for-filament",
     "description": "Rating star for filament table column and schemas.",
     "keywords": [
         "l3aro",
@@ -9,10 +9,10 @@
         "filament-plugin",
         "filament-rating-star"
     ],
-    "homepage": "https://github.com/l3aro/filament-rating-star",
+    "homepage": "https://github.com/l3aro/rating-star-for-filament",
     "support": {
-        "issues": "https://github.com/l3aro/filament-rating-star/issues",
-        "source": "https://github.com/l3aro/filament-rating-star"
+        "issues": "https://github.com/l3aro/rating-star-for-filament/issues",
+        "source": "https://github.com/l3aro/rating-star-for-filament"
     },
     "license": "MIT",
     "authors": [
