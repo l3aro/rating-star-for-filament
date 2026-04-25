@@ -16,14 +16,17 @@ jobs:
         php: [8.4, 8.5]
         laravel: [12.*]
         stability: [prefer-stable, prefer-lowest]
-        testbench: [10.*, 11.*]
+        testbench: [10.*]
         carbon: [3.*]
-        collision: [8.*, 9.*]
-        exclude:
-          - laravel: 12.*
+        collision: [8.*]
+        include:
+          - laravel: 13.*
+            php: 8.5
+            os: ubuntu-latest
+            stability: prefer-stable
             testbench: 11.*
-          - laravel: 12.*
             collision: 9.*
+            carbon: 3.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
