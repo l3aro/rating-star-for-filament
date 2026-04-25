@@ -27,75 +27,94 @@
     };
 @endphp
 
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div class="flex group">
-        @if ($shouldAllowZero())
-            <input
-                type="radio"
-                value="0"
-                id="{{ $id }}-star-0"
-                class="!hidden peer"
-                @disabled($isDisabled)
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-            >
+<div
+    x-data="{
+        rating: {{ $getState() ?? 0 }},
+        hoverRating: {{ $getState() ?? 0 }},
+        allowHalfStar: true,
+        allowZero: @js($shouldAllowZero()),
+        rate(amount) {
+            if (this.allowZero && this.rating == amount) {
+                this.rating = 0;
+            } else {
+                this.rating = amount;
+            }
+        },
+        resetPreview() {
+            this.hoverRating = this.rating;
+        }
+    }"
+    class="flex group"
+>
+    <input
+        type="hidden"
+        {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
+        x-model="rating"
+    >
 
-            <label
-                for="{{ $id }}-star-0"
-                @class([
-                    "text-slate-300 peer-checked:text-danger-500",
-                    "group-hover:!text-slate-300 peer-hover:!text-danger-500 cursor-pointer" => ! $isDisabled,
-                ])
-            >
-                <x-icon name="heroicon-c-no-symbol" class="{{ $sizeClass }} pointer-events-none" />
-            </label>
-        @endif
+    @foreach ($getStarArray() as $value)
+        <input
+            type="radio"
+            value="{{ $value - 0.5 }}"
+            id="{{ $id }}-star-{{ $value - 0.5 }}"
+            class="sr-only peer"
+            wire:loading.attr="disabled"
+            @disabled($isDisabled)
+        >
 
-        @foreach ($getStarArray() as $value)
-            <label
-                for="{{ $id }}-star-{{ $value - 0.5 }}"
-                @class([
-                    "shrink-0 relative {$halfSizeClass} overflow-hidden {$colorClass} peer-checked:text-slate-300",
-                    "{$groupHoverColorClass} peer-hover:!text-slate-300 cursor-pointer" => ! $isDisabled,
-                ])
-                @style([
-                    \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
-                ])
-            >
-                <x-icon name="heroicon-s-star" class="absolute start-0 {{ $sizeClass }} pointer-events-none" />
-            </label>
+        <button
+            type="button"
+            @click="rate({{ $value - 0.5 }}); document.getElementById('{{ $id }}-star-{{ $value - 0.5 }}').checked = true; $wire.set('{{ $getStatePath() }}', rating)"
+            @mouseover="hoverRating = {{ $value - 0.5 }}"
+            @mouseleave="resetPreview()"
+            :disabled="{{ $isDisabled ? 'true' : 'false' }}"
+            wire:loading.attr="disabled"
+            @class([
+                "shrink-0 relative {$halfSizeClass} overflow-hidden cursor-pointer" => ! $isDisabled,
+                "shrink-0 relative {$halfSizeClass} overflow-hidden cursor-not-allowed" => $isDisabled,
+            ])
+            :class="{
+                'text-slate-300': hoverRating < {{ $value - 0.5 }} && rating < {{ $value - 0.5 }},
+                '{{ $groupHoverColorClass }}': hoverRating >= {{ $value - 0.5 }} && rating < {{ $value - 0.5 }},
+                '{{ $colorClass }}': rating >= {{ $value - 0.5 }},
+            }"
+            @style([
+                \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
+            ])
+        >
+            <x-icon name="heroicon-s-star" class="absolute start-0 top-0 {{ $sizeClass }} pointer-events-none" />
+        </button>
 
-            <input
-                type="radio"
-                value="{{ $value - 0.5 }}"
-                id="{{ $id }}-star-{{ $value - 0.5 }}"
-                class="!hidden peer"
-                wire:loading.attr="disabled"
-                @disabled($isDisabled)
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-            >
+        <input
+            type="radio"
+            value="{{ $value }}"
+            id="{{ $id }}-star-{{ $value }}"
+            class="sr-only peer"
+            wire:loading.attr="disabled"
+            @disabled($isDisabled)
+        >
 
-            <label
-                for="{{ $id }}-star-{{ $value }}"
-                @class([
-                    "shrink-0 relative {$halfSizeClass} overflow-hidden {$colorClass} peer-checked:text-slate-300",
-                    "{$groupHoverColorClass} peer-hover:!text-slate-300 cursor-pointer" => ! $isDisabled,
-                ])
-                @style([
-                    \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
-                ])
-            >
-                <x-icon name="heroicon-s-star" class="absolute end-0 {{ $sizeClass }} pointer-events-none" />
-            </label>
-
-            <input
-                type="radio"
-                value="{{ $value }}"
-                id="{{ $id }}-star-{{ $value }}"
-                class="!hidden peer"
-                wire:loading.attr="disabled"
-                @disabled($isDisabled)
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-            >
-        @endforeach
-    </div>
-</x-dynamic-component>
+        <button
+            type="button"
+            @click="rate({{ $value }}); document.getElementById('{{ $id }}-star-{{ $value }}').checked = true; $wire.set('{{ $getStatePath() }}', rating)"
+            @mouseover="hoverRating = {{ $value }}"
+            @mouseleave="resetPreview()"
+            :disabled="{{ $isDisabled ? 'true' : 'false' }}"
+            wire:loading.attr="disabled"
+            @class([
+                "shrink-0 relative {$halfSizeClass} overflow-hidden cursor-pointer" => ! $isDisabled,
+                "shrink-0 relative {$halfSizeClass} overflow-hidden cursor-not-allowed" => $isDisabled,
+            ])
+            :class="{
+                'text-slate-300': hoverRating < {{ $value }} && rating < {{ $value }},
+                '{{ $groupHoverColorClass }}': hoverRating >= {{ $value }} && rating < {{ $value }},
+                '{{ $colorClass }}': rating >= {{ $value }},
+            }"
+            @style([
+                \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
+            ])
+        >
+            <x-icon name="heroicon-s-star" class="absolute end-0 top-0 {{ $sizeClass }} pointer-events-none" />
+        </button>
+    @endforeach
+</div>

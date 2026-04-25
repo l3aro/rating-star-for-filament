@@ -20,52 +20,61 @@
     };
 @endphp
 
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div class="flex group">
-        @if ($shouldAllowZero())
-            <input
-                type="radio"
-                value="0"
-                id="{{ $id }}-star-0"
-                class="!hidden peer"
-                @disabled($isDisabled)
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-            >
+<div
+    x-data="{
+        rating: {{ $getState() ?? 0 }},
+        hoverRating: {{ $getState() ?? 0 }},
+        allowZero: @js($shouldAllowZero()),
+        rate(amount) {
+            if (this.allowZero && this.rating == amount) {
+                this.rating = 0;
+            } else {
+                this.rating = amount;
+            }
+        },
+        resetPreview() {
+            this.hoverRating = this.rating;
+        }
+    }"
+    class="flex group"
+>
+    <input
+        type="hidden"
+        {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
+        x-model="rating"
+    >
 
-            <label
-                for="{{ $id }}-star-0"
-                @class([
-                    "text-slate-300 peer-checked:text-danger-500",
-                    "group-hover:!text-slate-300 peer-hover:!text-danger-500 cursor-pointer" => ! $isDisabled,
-                ])
-            >
-                <x-icon name="heroicon-c-no-symbol" class="{{ $sizeClass }} pointer-events-none" />
-            </label>
-        @endif
+    @foreach ($getStarArray() as $value)
+        <input
+            type="radio"
+            value="{{ $value }}"
+            id="{{ $id }}-star-{{ $value }}"
+            class="sr-only peer"
+            wire:loading.attr="disabled"
+            @disabled($isDisabled)
+        >
 
-        @foreach ($getStarArray() as $value)
-            <label
-                for="{{ $id }}-star-{{ $value }}"
-                @class([
-                    "{$colorClass} peer-checked:text-slate-300",
-                    "{$groupHoverColorClass} peer-hover:!text-slate-300 cursor-pointer" => ! $isDisabled,
-                ])
-                @style([
-                    \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
-                ])
-            >
-                <x-icon name="heroicon-s-star" class="{{ $sizeClass }} pointer-events-none" />
-            </label>
-
-            <input
-                type="radio"
-                value="{{ $value }}"
-                id="{{ $id }}-star-{{ $value }}"
-                class="!hidden peer"
-                wire:loading.attr="disabled"
-                @disabled($isDisabled)
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-            >
-        @endforeach
-    </div>
-</x-dynamic-component>
+        <button
+            type="button"
+            @click="rate({{ $value }}); document.getElementById('{{ $id }}-star-{{ $value }}').checked = true; $wire.set('{{ $getStatePath() }}', rating)"
+            @mouseover="hoverRating = {{ $value }}"
+            @mouseleave="resetPreview()"
+            :disabled="{{ $isDisabled ? 'true' : 'false' }}"
+            wire:loading.attr="disabled"
+            @class([
+                "cursor-pointer" => ! $isDisabled,
+                "cursor-not-allowed" => $isDisabled,
+            ])
+            :class="{
+                'text-slate-300': hoverRating < {{ $value }},
+                '{{ $groupHoverColorClass }}': hoverRating >= {{ $value }} && rating < {{ $value }},
+                '{{ $colorClass }}': hoverRating >= {{ $value }} && rating >= {{ $value }},
+            }"
+            @style([
+                \Filament\Support\get_color_css_variables($color, [500]) => $color !== 'gray',
+            ])
+        >
+            <x-icon name="heroicon-s-star" class="{{ $sizeClass }} pointer-events-none" />
+        </button>
+    @endforeach
+</div>
