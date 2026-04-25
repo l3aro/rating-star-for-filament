@@ -19,6 +19,13 @@ jobs:
         testbench: [10.*]
         carbon: [3.*]
         collision: [8.*]
+        include:
+          - laravel: 13.*
+            php: 8.5
+            os: ubuntu-latest
+            stability: prefer-stable
+            testbench: 11.*
+            carbon: 3.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
