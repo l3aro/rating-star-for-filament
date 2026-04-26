@@ -66,6 +66,6 @@ class TestCase extends Orchestra
         ]);
 
         $app['config']->set('view.compiled', sys_get_temp_dir() . '/laravel-view-compiled');
-        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
+        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
     }
 }
