@@ -28,6 +28,8 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
     }
 
     protected function getPackageProviders($app)
@@ -57,5 +59,13 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+
+        $app['config']->set('view.compiled', sys_get_temp_dir() . '/laravel-view-compiled');
+        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
     }
 }
